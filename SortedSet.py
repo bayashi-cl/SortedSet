@@ -21,7 +21,7 @@ class SortedSet(Generic[T]):
     REBUILD_RATIO = 170
 
     def _build(self, a=None) -> None:
-        "Evenly divide `a` into buckets."
+        """Evenly divide `a` into buckets."""
         if a is None:
             a = list(self)
         size = self.size = len(a)
@@ -32,7 +32,7 @@ class SortedSet(Generic[T]):
         ]
 
     def __init__(self, a: Iterable[T] = []) -> None:
-        "Make a new SortedSet from iterable. / O(N) if sorted and unique / O(N log N)"
+        """Make a new SortedSet from iterable. / O(N) if sorted and unique / O(N log N)"""
         a = list(a)
         if not all(a[i] < a[i + 1] for i in range(len(a) - 1)):
             a = sorted(set(a))
@@ -59,7 +59,7 @@ class SortedSet(Generic[T]):
         return "{" + s[1 : len(s) - 1] + "}"
 
     def _find_bucket(self, x: T) -> List[T]:
-        "Find the bucket which should contain x. self must not be empty."
+        """Find the bucket which should contain x. self must not be empty."""
         for a in self.a:
             if x <= a[-1]:
                 return a
@@ -73,7 +73,7 @@ class SortedSet(Generic[T]):
         return i != len(a) and a[i] == x
 
     def add(self, x: T) -> bool:
-        "Add an element and return True if added. / O(√N)"
+        """Add an element and return True if added. / O(√N)"""
         if self.size == 0:
             self.a = [[x]]
             self.size = 1
@@ -89,7 +89,7 @@ class SortedSet(Generic[T]):
         return True
 
     def discard(self, x: T) -> bool:
-        "Remove an element and return True if removed. / O(√N)"
+        """Remove an element and return True if removed. / O(√N)"""
         if self.size == 0:
             return False
         a = self._find_bucket(x)
@@ -103,7 +103,7 @@ class SortedSet(Generic[T]):
         return True
 
     def lt(self, x: T) -> Optional[T]:
-        "Find the largest element < x, or None if it doesn't exist."
+        """Find the largest element < x, or None if it doesn't exist."""
         for a in reversed(self.a):
             if a[0] < x:
                 return a[bisect_left(a, x) - 1]
@@ -111,7 +111,7 @@ class SortedSet(Generic[T]):
             return None
 
     def le(self, x: T) -> Optional[T]:
-        "Find the largest element <= x, or None if it doesn't exist."
+        """Find the largest element <= x, or None if it doesn't exist."""
         for a in reversed(self.a):
             if a[0] <= x:
                 return a[bisect_right(a, x) - 1]
@@ -119,7 +119,7 @@ class SortedSet(Generic[T]):
             return None
 
     def gt(self, x: T) -> Optional[T]:
-        "Find the smallest element > x, or None if it doesn't exist."
+        """Find the smallest element > x, or None if it doesn't exist."""
         for a in self.a:
             if a[-1] > x:
                 return a[bisect_right(a, x)]
@@ -127,14 +127,14 @@ class SortedSet(Generic[T]):
             return None
 
     def ge(self, x: T) -> Optional[T]:
-        "Find the smallest element >= x, or None if it doesn't exist."
+        """Find the smallest element >= x, or None if it doesn't exist."""
         for a in self.a:
             if a[-1] >= x:
                 return a[bisect_left(a, x)]
         return None
 
     def __getitem__(self, x: int) -> T:
-        "Return the x-th element, or IndexError if it doesn't exist."
+        """Return the x-th element, or IndexError if it doesn't exist."""
         if x < 0:
             x += self.size
         if x < 0:
@@ -146,7 +146,7 @@ class SortedSet(Generic[T]):
         raise IndexError
 
     def index(self, x: T) -> int:
-        "Count the number of elements < x."
+        """Count the number of elements < x."""
         ans = 0
         for a in self.a:
             if a[-1] >= x:
@@ -155,7 +155,7 @@ class SortedSet(Generic[T]):
         return ans
 
     def index_right(self, x: T) -> int:
-        "Count the number of elements <= x."
+        """Count the number of elements <= x."""
         ans = 0
         for a in self.a:
             if a[-1] > x:
