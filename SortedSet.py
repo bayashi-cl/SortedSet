@@ -1,9 +1,19 @@
-# https://github.com/tatyam-prime/SortedSet/blob/main/SortedSet.py
+"""\
+https://github.com/tatyam-prime/SortedSet/blob/main/SortedSet.py
+"""
 import math
 from bisect import bisect_left, bisect_right
-from typing import Generic, Iterable, Iterator, List, TypeVar, Union
+from typing import Generic, Iterable, Iterator, List, Optional, Protocol, TypeVar
 
-T = TypeVar("T")
+_T_contra = TypeVar("_T_contra", contravariant=True)
+
+
+class SupportsLT(Protocol[_T_contra]):
+    def __lt__(self, __other: _T_contra) -> bool:
+        ...
+
+
+T = TypeVar("T", bound=SupportsLT)
 
 
 class SortedSet(Generic[T]):
@@ -92,29 +102,36 @@ class SortedSet(Generic[T]):
             self._build()
         return True
 
-    def lt(self, x: T) -> Union[T, None]:
+    def lt(self, x: T) -> Optional[T]:
         "Find the largest element < x, or None if it doesn't exist."
         for a in reversed(self.a):
             if a[0] < x:
                 return a[bisect_left(a, x) - 1]
+        else:
+            return None
 
-    def le(self, x: T) -> Union[T, None]:
+    def le(self, x: T) -> Optional[T]:
         "Find the largest element <= x, or None if it doesn't exist."
         for a in reversed(self.a):
             if a[0] <= x:
                 return a[bisect_right(a, x) - 1]
+        else:
+            return None
 
-    def gt(self, x: T) -> Union[T, None]:
+    def gt(self, x: T) -> Optional[T]:
         "Find the smallest element > x, or None if it doesn't exist."
         for a in self.a:
             if a[-1] > x:
                 return a[bisect_right(a, x)]
+        else:
+            return None
 
-    def ge(self, x: T) -> Union[T, None]:
+    def ge(self, x: T) -> Optional[T]:
         "Find the smallest element >= x, or None if it doesn't exist."
         for a in self.a:
             if a[-1] >= x:
                 return a[bisect_left(a, x)]
+        return None
 
     def __getitem__(self, x: int) -> T:
         "Return the x-th element, or IndexError if it doesn't exist."
