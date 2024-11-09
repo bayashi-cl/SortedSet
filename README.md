@@ -2,13 +2,19 @@
 
 平衡 $\Theta(\sqrt N)$ 分木の SortedSet です。PyPy で動きます。平衡二分木系より速いと思います。
 
-[SortedSet](SortedSet.py)  
-[SortedMultiset](SortedMultiset.py)  
+[SortedSet](src/SortedSet/SortedSet.py)  
+[SortedMultiset](src/SortedSet/SortedMultiset.py)  
 [使用例](example)  
+
+## インストール方法
+
+```sh
+pip install git+https://github.com/tatyam-prime/SortedSet.git
+```
 
 ## ドキュメント
 
-## [SortedSet](SortedSet.py)
+## [SortedSet](src/SortedSet/SortedSet.py)
 
 ソート済み列をいくつかのバケット (`list`) に分割して管理します。このとき、(バケットの個数) : (バケット内の個数) ${} = 1 : 16$ くらいにします。
 あるバケットに含まれる要素が多すぎるときはそれを $2$ つのバケットに分割して、空になったときはそのバケットを削除します。  
@@ -80,7 +86,7 @@ $O(1)$ 時間
 
 集合として同一かどうかを判定します。 $O(N)$ 時間
 
-## [SortedMultiset](SortedMultiset.py)
+## [SortedMultiset](src/SortedSet/SortedMultiset.py)
 
 SortedSet の多重集合版です。同じ要素を複数入れることができます。SortedSet からの変更点は以下の通りです。
 
